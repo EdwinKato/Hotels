@@ -1,7 +1,6 @@
 import React from 'react';
-// import logo from './logo.svg';
-import logo from '../../design/logo.svg';
-import MapBurgerIcon from '../../design/MapBurgerIcon.svg';
+import logo from '../../images/logo.svg';
+import MapBurgerIcon from '../../images/MapBurgerIcon.svg';
 import './App.css';
 import { Map } from '../Map';
 

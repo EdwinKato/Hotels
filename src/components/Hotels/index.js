@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Hotel } from '../Hotel';
-import MapHomeIconDefault from '../../design/MapHomeIconDefault.svg';
-import MapHomeIconActive from '../../design/MapHomeIconActive.svg';
+import MapHomeIconDefault from '../../images/MapHomeIconDefault.svg';
+import MapHomeIconActive from '../../images/MapHomeIconActive.svg';
 import './Hotels.css';
 
 const API_KEY = 'Mbq16vleQ5WNqXJUoSDg2zvxKHvkt7PL2_irXrYQon4';
