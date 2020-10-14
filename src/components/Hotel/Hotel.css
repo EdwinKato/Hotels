@@ -1,5 +1,5 @@
 .card {
-    width: 100%;
+    width: 200px;
     margin: 0 1.5rem 0 1.5rem;
     background-color: white;
     box-shadow: 0 3px 10px #666;
@@ -11,9 +11,9 @@
     padding: 1rem;
   }
   .name {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     text-align: center;
-    width: 150px
+    font-weight: bold;
   }
   .role {
     font-size: 1.25rem;
