@@ -1,0 +1,9 @@
+.hotels {
+    display: flex;
+    flex-direction: row;
+    z-index: 5;
+    bottom: 0;
+    position: absolute;
+    padding: 0 80px 20px 80px;
+    width: 85%;
+}
