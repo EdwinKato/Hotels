@@ -46,7 +46,7 @@ export class Map extends React.Component {
     initializeMap = () => {
         const H = window.H;
         const platform = new H.service.Platform({
-            apikey: 'Mbq16vleQ5WNqXJUoSDg2zvxKHvkt7PL2_irXrYQon4'
+            apikey: process.env.REACT_APP_HERE_API_KEY
         });
         const defaultLayers = platform.createDefaultLayers();
 

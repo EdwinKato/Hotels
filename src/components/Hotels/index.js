@@ -6,7 +6,6 @@ import MapHomeIconDefault from '../../images/MapHomeIconDefault.svg';
 import MapHomeIconActive from '../../images/MapHomeIconActive.svg';
 import './Hotels.css';
 
-const API_KEY = 'Mbq16vleQ5WNqXJUoSDg2zvxKHvkt7PL2_irXrYQon4';
 const H = window.H;
 const defaultIcon = new H.map.Icon(MapHomeIconDefault);
 const activeIcon = new H.map.Icon(MapHomeIconActive);
@@ -19,12 +18,19 @@ export class Hotels extends Component {
     };
 
     async componentDidMount() {
-        const hotels = await this.getHotels();
-        this.setState({ hotels: hotels.items });
-        this.renderHotelMarkers(hotels);
+        const result = await this.getHotels();
+        this.setState({ hotels: result.items });
+        this.addHotelMarkers(result);
     }
 
-    renderHotelMarkers = (hotels) => {
+    getHotels = async () => {
+        const { latitude, longitude } = this.props;
+        const searchURL = `https://discover.search.hereapi.com/v1/discover?at=${latitude},${longitude}&q=hotel&lang=en-US&apiKey=${process.env.REACT_APP_HERE_API_KEY}`;
+        const response = await fetch(searchURL);
+        return response.json();
+    };
+
+    addHotelMarkers = (hotels) => {
         const { map } = this.props;
         hotels.items.forEach((hotel) => {
             const marker = new H.map.Marker(hotel.position, { icon: defaultIcon });
@@ -56,18 +62,6 @@ export class Hotels extends Component {
             object.dispose();
         });
     }
-
-    getHotels = async () => {
-        const { latitude, longitude } = this.props;
-        const searchURL = `https://discover.search.hereapi.com/v1/discover?at=${latitude},${longitude}&q=hotel&lang=en-US&apiKey=${API_KEY}`;
-        const response = await fetch(searchURL);
-        return response.json();
-    };
-
-    onClick = (position) => {
-        const { map } = this.props;
-        map.setCenter(position, true);
-    };
 
     render() {
         const { selectedHotel } = this.state;
