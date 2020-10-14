@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './Hotel.css';
 
-const getDistanceLabel = (distance) => {
+export const getDistanceLabel = (distance) => {
     let value = `${distance} m`;
     if (distance >= 1000) {
         value = `${distance / 1000} km`;
