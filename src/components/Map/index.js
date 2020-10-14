@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Hotels } from '../Hotels';
 
-const API_KEY = 'Mbq16vleQ5WNqXJUoSDg2zvxKHvkt7PL2_irXrYQon4';
+const ZOOM_LEVEL = 15;
 
 export class Map extends React.Component {
     mapRef = React.createRef();
@@ -22,11 +22,14 @@ export class Map extends React.Component {
 
     setCurrentPosition = () => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.onPositionSuccess, this.onPositionError);
+            navigator.geolocation.getCurrentPosition(
+                this.onSetPositionSuccess,
+                this.onSetPositionError
+            );
         }
     };
 
-    onPositionSuccess = (position) => {
+    onSetPositionSuccess = (position) =>
         this.setState(
             {
                 latitude: position.coords.latitude,
@@ -35,44 +38,45 @@ export class Map extends React.Component {
             },
             this.initializeMap
         );
-    };
 
-    onPositionError = (error) => this.setState({ error: error.message });
+    onSetPositionError = (error) => this.setState({ error: error.message });
 
-    initializeMap = async () => {
+    initializeMap = () => {
         const H = window.H;
         const platform = new H.service.Platform({
             apikey: 'Mbq16vleQ5WNqXJUoSDg2zvxKHvkt7PL2_irXrYQon4'
         });
         const defaultLayers = platform.createDefaultLayers();
 
-        // Create an instance of the map
+        // Create the map
         const map = new H.Map(this.mapRef.current, defaultLayers.vector.normal.map, {
             center: { lat: this.state.latitude, lng: this.state.longitude },
-            zoom: 15,
+            zoom: ZOOM_LEVEL,
             pixelRatio: window.devicePixelRatio || 1
         });
+
+        // Add interactivity to the map
         const events = new H.mapevents.MapEvents(map);
         new H.mapevents.Behavior(events);
         const ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
         this.setState({ map, ui });
     };
 
-    getHotels = async () => {
-        const searchURL = `https://discover.search.hereapi.com/v1/discover?at=${this.state.latitude},${this.state.longitude}&q=hotel&lang=en-US&apiKey=${API_KEY}`;
-        const response = await fetch(searchURL);
-        return response.json();
-    };
-
     componentWillUnmount() {
-        // Cleanup after the map to avoid memory leaks when this component exits the page
+        // Cleanup after the map to avoid memory leaks
         this.state.map.dispose();
     }
 
     render() {
-        const { map, latitude, longitude, ui } = this.state;
+        const { map, latitude, longitude, ui, error } = this.state;
         return (
             <div style={{ height: '100%' }}>
+                {error && (
+                    <div className="error">
+                        Sorry, an error occured while trying to set the position. Please reload the
+                        page and try again
+                    </div>
+                )}
                 <div ref={this.mapRef} style={{ height: '100vh' }}></div>
                 <div
                     style={{
