@@ -50,10 +50,11 @@ export class Hotels extends Component {
     };
 
     componentDidUnMount() {
-        const { selectedMarker } = this.state;
-        if (selectedMarker) {
-            selectedMarker.dispose();
-        }
+        const { map } = this.state;
+        const objects = map.getObjects();
+        objects.forEach((object) => {
+            object.dispose();
+        });
     }
 
     getHotels = async () => {
