@@ -26,6 +26,8 @@ export class Map extends React.Component {
                 this.onSetPositionSuccess,
                 this.onSetPositionError
             );
+        } else {
+            this.initializeMap();
         }
     };
 
@@ -58,7 +60,16 @@ export class Map extends React.Component {
         // Add interactivity to the map
         const events = new H.mapevents.MapEvents(map);
         new H.mapevents.Behavior(events);
+
+        // Add and position UI controls
         const ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
+        var mapSettings = ui.getControl('mapsettings');
+        const zoom = ui.getControl('zoom');
+        const scalebar = ui.getControl('scalebar');
+        mapSettings.setAlignment('top-right');
+        zoom.setAlignment('top-right');
+        scalebar.setAlignment('top-right');
+
         this.setState({ map, ui });
     };
 
